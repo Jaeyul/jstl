@@ -14,6 +14,9 @@ import com.jstl.test.service.impl.UserServiceImpl;
 public class JspServlet extends HttpServlet {
 	UserService us = new UserServiceImpl();
 	
+
+	
+	
 	public String getCommand(String uri) {
 
 		int idx = uri.lastIndexOf(".");
@@ -45,18 +48,20 @@ public class JspServlet extends HttpServlet {
 	 String root = req.getContextPath();
 	 uri = uri.replace(root, "");
 //	 uri = getCommand(uri);		
-	 uri = 	"/WEB-INF" + uri + ".jsp" ;
+	
 	 
 	 if(uri.indexOf("user/list")!= -1) {
 		 us.getUserList(req);		 
 	 }
+	 	 
+	
 	 if(uri.indexOf("user/search")!= -1) {
 		 us.searchUser(req);
-		 
-	 }
+		 uri = "/view/user/list";
+	 }	
 	
 	 
-	 
+	 uri = 	"/WEB-INF" + uri + ".jsp" ;
 	 RequestDispatcher rd = req.getRequestDispatcher(uri);
 	 rd.forward(req, res);
 	// PrintWriter out = res.getWriter();

@@ -99,4 +99,94 @@ public class UserDAOImpl implements UserDAO{
 		return null;
 	}
 	
+	@Override
+	public List<UserClass> searchUserForUiAge(Connection con, int uiAge) {
+		ArrayList<UserClass> userList = new ArrayList<UserClass>();
+		try {			
+			String sql = "select * from user_info where uiAge like %?%";
+			ps = con.prepareStatement(sql);		
+			ps.setInt(1, uiAge);
+			rs = ps.executeQuery();			
+			while(rs.next()) {
+				UserClass uc = new UserClass();
+				uc.setAddress(rs.getString("address"));					
+				uc.setUiAge(rs.getInt("uiage"));
+				uc.setUiId(rs.getString("uiId"));
+				uc.setUiName(rs.getString("uiname"));
+				uc.setUiNo(rs.getInt("uino"));
+				uc.setUiPwd(rs.getString("uipwd"));				
+				userList.add(uc);				
+			}return userList;
+		}catch(Exception e) {
+			e.printStackTrace();		
+		}
+		finally {
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}		
+		return null;
+	}
+	
+	
+
+	@Override
+	public List<UserClass> searchUser(Connection con, String uiName) {
+		ArrayList<UserClass> userList = new ArrayList<UserClass>();
+		try {			
+			String sql = "select * from user_info where uiName like %?%";
+			ps = con.prepareStatement(sql);		
+			ps.setString(1, uiName);
+			rs = ps.executeQuery();			
+			while(rs.next()) {
+				UserClass uc = new UserClass();
+				uc.setAddress(rs.getString("address"));					
+				uc.setUiAge(rs.getInt("uiage"));
+				uc.setUiId(rs.getString("uiId"));
+				uc.setUiName(rs.getString("uiname"));
+				uc.setUiNo(rs.getInt("uino"));
+				uc.setUiPwd(rs.getString("uipwd"));				
+				userList.add(uc);				
+			}return userList;
+		}catch(Exception e) {
+			e.printStackTrace();		
+		}
+		finally {
+			if(ps!=null) {
+				try {
+					ps.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}	
+		return null;
+	}
+
+	
+	
+	
+	
 }

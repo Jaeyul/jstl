@@ -17,14 +17,28 @@ public class UserServiceImpl implements UserService {
 	Connection con = null;
 	UserDAO udao = new UserDAOImpl();
 	
+	private boolean isName(String numStr) {		
+		try {
+			int num = Integer.parseInt(numStr);
+			return true;
+		} catch (NumberFormatException e) {
+			
+			e.printStackTrace();
+		}
+		
+		return false;	
+		
+	}
+	
+	
 	
 	private UserClass getUserClass(int i) {
 		UserClass uc = new UserClass();
 		uc.setUiNo(i);
-		uc.setUiName("이름" + i);
+		uc.setUiName("�씠由�" + i);
 		uc.setUiAge(i);
-		uc.setUiId("아이디" + i);
-		uc.setAddress("주소" + i);
+		uc.setUiId("�븘�씠�뵒" + i);
+		uc.setAddress("二쇱냼" + i);
 		return uc;		
 	}
 	
@@ -63,11 +77,27 @@ public class UserServiceImpl implements UserService {
 	public void searchUser(HttpServletRequest req) {
 		con = DBCon.getCon();
 		String filter = req.getParameter("param");
+		if(isName(filter)) {
+			int intFilter = Integer.parseInt(filter);
+			ArrayList<UserClass> userList = (ArrayList<UserClass>)udao.searchUser(con, intFilter);
+			if(userList != null) {
+				req.setAttribute("userList", userList);	
+			}else {
+				userList = (ArrayList<UserClass>)udao.searchUserForUiAge(con, intFilter);
+				
+			}							
+		}
+		else {
+			ArrayList<UserClass> userList = (ArrayList<UserClass>)udao.searchUser(con, filter);
+			req.setAttribute("userList", userList);				
+		}
+		try {
+			con.close();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		
-		
-		ArrayList<UserClass> userList = (ArrayList<UserClass>)udao.searchUser(con, filter);	
-		req.setAttribute("userList", userList);
 		
 	}
-
 }

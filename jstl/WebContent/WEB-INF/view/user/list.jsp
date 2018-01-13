@@ -16,28 +16,13 @@ I'm the UserList<br>
 </c:forEach>
 </dir>
 
-<input type="text" id="choi"><input type="button" onclick="search()">
+<form action="<%=root %>/view/user/search">
+ <input type="text" name="search"><input type="submit" value="검색">
+</form>
 
 </body>
 <script>
-function search(){
-	
-	var filter = $("#choi").val().trim();
-	var param = "param=" + filter;
-	
-	$.ajax({
-		url : "<%=root%>/view/user/search",
-		data : param,
-		type : 'post',		
-		dataType : 'Json',
-		success:function(res){
-			
-		},
-		error:function(xhr,status,error){
-			
-		}		
-	});	
-}
+
 
 
 </script>
